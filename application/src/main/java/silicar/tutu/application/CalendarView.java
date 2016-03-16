@@ -23,6 +23,7 @@ public class CalendarView extends LinearLayout {
     private ViewGroup[][] dayView;
 
     private long[][] dayTime;
+    private String[][] dayLabel;
     private CalendarUtil calendarUtil;
 
     public CalendarView(Context context) {
@@ -55,6 +56,7 @@ public class CalendarView extends LinearLayout {
         addView(headView);
         addView(contentView);
         dayView = new ViewGroup[6][7];
+        dayLabel = new String[6][7];
         dayTime = calendarUtil.getMonthTimes();
         calendarUtil.setTempTime(calendarUtil.getTimeInMillis());
         for (int i = 0; i < 6; i++){
@@ -66,17 +68,53 @@ public class CalendarView extends LinearLayout {
                 ((TextView)dayView[i][j].findViewById(R.id.day)).setText("" + calendarUtil.get(Calendar.DAY_OF_MONTH));
             }
         }
-        calendarUtil.setTempTime(calendarUtil.getTempTime());
+        calendarUtil.setTimeInMillis(calendarUtil.getTempTime());
     }
 
-    public ViewGroup getWeekOfMonth(int week){
+    private ViewGroup getWeekOfMonth(int week){
         return (ViewGroup) contentView.getChildAt(week * 2);
     }
 
-    public ViewGroup getDayOfWeek(ViewGroup weekView, int day){
+    private ViewGroup getDayOfWeek(ViewGroup weekView, int day){
         return (ViewGroup) weekView.getChildAt(day * 2);
     }
 
     public void showDivision(boolean state){}
+
+    public long getDayTime(int week, int day){
+        return dayTime[week][day];
+    }
+
+    public void setDayTime(int week, int day, long dayTime) {
+        this.dayTime[week][day] = dayTime;
+    }
+
+    public String getDayLabel(int week, int day) {
+        return dayLabel[week][day];
+    }
+
+    public void setDayLabel(int week, int day, String dayLabel) {
+        this.dayLabel[week][day] = dayLabel;
+    }
+
+    public ViewGroup getDayView(int week, int day) {
+        return dayView[week][day];
+    }
+
+    public CalendarUtil.DayIndex getDayIndex(int day){
+        return calendarUtil.getDayIndex(day);
+    }
+
+    public long[][] getDayTimes() {
+        return dayTime;
+    }
+
+    public String[][] getDayLabels() {
+        return dayLabel;
+    }
+
+    public ViewGroup[][] getDayViews() {
+        return dayView;
+    }
 
 }

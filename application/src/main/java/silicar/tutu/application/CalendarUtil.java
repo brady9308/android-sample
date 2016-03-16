@@ -12,6 +12,7 @@ import java.util.TimeZone;
  */
 public class CalendarUtil extends GregorianCalendar {
     private long tempTime;
+    private int mFirstDay = -1;
 
     public static synchronized CalendarUtil getInstance() {
         return new CalendarUtil();
@@ -51,8 +52,12 @@ public class CalendarUtil extends GregorianCalendar {
      */
     public long[][] getMonthTimes(){
         tempTime = getTimeInMillis();
-        int start = 1 - getFirstDayWeek();
+        mFirstDay = getFirstDayWeek();
+        int start = 1 - mFirstDay;
+        setTimeInMillis(tempTime);
+        //设置为当月第一天
         set(Calendar.DAY_OF_MONTH, 1);
+        //减去当月起始空白天数
         add(Calendar.DAY_OF_YEAR, start);
         long[][] month = new long[6][7];
         for (int i = 0; i < 6; i++){
@@ -61,7 +66,7 @@ public class CalendarUtil extends GregorianCalendar {
                 add(Calendar.DAY_OF_YEAR, 1);
             }
         }
-        setTimeInMillis(time);
+        setTimeInMillis(tempTime);
         return month;
     }
 
@@ -69,12 +74,25 @@ public class CalendarUtil extends GregorianCalendar {
      * 当月第一天星期几
      * @return
      */
-    public int getFirstDayWeek(){
-        tempTime = getTimeInMillis();
+    private int getFirstDayWeek(){
+        //tempTime = getTimeInMillis();
         set(Calendar.DAY_OF_MONTH, 1);
         int week = get(DAY_OF_WEEK);
-        setTimeInMillis(tempTime);
+        //setTimeInMillis(tempTime);
         return week;
+    }
+
+    /**
+     * 获取当月第一天
+     * @return
+     */
+    public int getFirstDay() {
+        if (mFirstDay == -1){
+            tempTime = time;
+            getFirstDayWeek();
+            setTimeInMillis(tempTime);
+        }
+        return mFirstDay;
     }
 
     /**
@@ -85,11 +103,28 @@ public class CalendarUtil extends GregorianCalendar {
         return getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
+    /**
+     * 获取某天数组下标
+     * @param day
+     * @return
+     */
+    public DayIndex getDayIndex(int day){
+        DayIndex index = new DayIndex();
+        int tempDay = day + getFirstDay() - 1;
+        index.week = tempDay / 7;
+        index.day = tempDay % 7;
+        return index;
+    }
+
     public long getTempTime() {
         return tempTime;
     }
 
     public void setTempTime(long tempTime) {
         this.tempTime = tempTime;
+    }
+
+    public static class DayIndex{
+        public int week, day;
     }
 }
