@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -66,8 +67,10 @@ public class TestActivity extends Activity implements OnTouchListener {
         case MotionEvent.ACTION_MOVE: {
             int x = (int) event.getX();
             int y = (int) event.getY();
-            mLayoutParams.x = rawX;
-            mLayoutParams.y = rawY;
+            //Log.e("rawX", "" + rawX);
+            //Log.e("rawY", "" + rawY);
+            mLayoutParams.x = rawX - (mFloatingButton.getWidth() / 2);
+            mLayoutParams.y = rawY - (mFloatingButton.getHeight() / 2) - 25;
             mWindowManager.updateViewLayout(mFloatingButton, mLayoutParams);
             break;
         }

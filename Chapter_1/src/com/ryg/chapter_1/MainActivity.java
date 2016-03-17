@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import static android.os.SystemClock.sleep;
+
 public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
@@ -22,7 +24,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState != null) {
             String test = savedInstanceState.getString("extra_test");
-            Log.d(TAG, "[onCreate]restore extra_test:" + test);
+            Log.e(TAG, "[onCreate]restore extra_test:" + test);
         }
         findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
 
@@ -41,57 +43,63 @@ public class MainActivity extends Activity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.d(TAG, "onNewIntent, time=" + intent.getLongExtra("time", 0));
+        Log.e(TAG, "onNewIntent, time=" + intent.getLongExtra("time", 0));
     }
 
     @Override
     protected void onStart() {
-        Log.d(TAG, "onStart");
+        Log.e(TAG, "onStart");
         super.onStart();
     }
 
     @Override
     protected void onResume() {
-        Log.d(TAG, "onResume");
+        Log.e(TAG, "onResume");
         super.onStart();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Log.d(TAG, "onConfigurationChanged, newOrientation:" + newConfig.orientation);
+        Log.e(TAG, "onConfigurationChanged, newOrientation:" + newConfig.orientation);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(TAG, "onSaveInstanceState");
+        Log.e(TAG, "onSaveInstanceState");
         outState.putString("extra_test", "test");
     }
     
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        //Log.d(TAG, "onRestoreInstanceState");
+        //Log.e(TAG, "onRestoreInstanceState");
         String test = savedInstanceState.getString("extra_test");
-        Log.d(TAG, "[onRestoreInstanceState]restore extra_test:" + test);
+        Log.e(TAG, "[onRestoreInstanceState]restore extra_test:" + test);
     }
 
     @Override
     protected void onPause() {
-        Log.d(TAG, "onPause");
+        Log.e(TAG, "onPause");
         super.onPause();
+        sleep(1500);
+        Log.e(TAG, "onPauseEnd");
     }
     
     @Override
     protected void onStop() {
-        Log.d(TAG, "onStop");
+        Log.e(TAG, "onStop");
         super.onStop();
+        sleep(1500);
+        Log.e(TAG, "onStopEnd");
     }
     
     @Override
     protected void onDestroy() {
-        Log.d(TAG, "onDestroy");
+        Log.e(TAG, "onDestroy");
         super.onDestroy();
+        sleep(1500);
+        Log.e(TAG, "onDestroyEnd");
     }
 }

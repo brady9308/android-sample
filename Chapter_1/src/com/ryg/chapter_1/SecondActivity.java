@@ -25,32 +25,32 @@ public class SecondActivity extends Activity {
                 startActivity(intent);
             }
         });
-        Log.d(TAG, "onCreate");
+        Log.e(TAG, "onCreate");
     }
 
     @Override
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        Log.d(TAG, "onStart");
+        Log.e(TAG, "onStart");
     }
 
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        Log.d(TAG, "onResume");
+        Log.e(TAG, "onResume");
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(TAG, "onSaveInstanceState");
+        Log.e(TAG, "onSaveInstanceState");
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.d(TAG, "onRestoreInstanceState");
+        Log.e(TAG, "onRestoreInstanceState");
     }
 }

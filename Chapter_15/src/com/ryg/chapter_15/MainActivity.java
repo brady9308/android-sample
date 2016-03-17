@@ -30,26 +30,26 @@ public class MainActivity extends Activity implements OnDataArrivedListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sContext = this;
-//        sView = new View(this);
+        sView = new View(this);
 
-//        mButton = (Button) findViewById(R.id.button1);
-//        TestManager.getInstance().registerListener(this);
-//        ObjectAnimator animator = ObjectAnimator.ofFloat(mButton, "rotation",
-//                0, 360).setDuration(2000);
-//        animator.setRepeatCount(ValueAnimator.INFINITE);
-//        animator.start();
-//        //animator.cancel();
+        mButton = (Button) findViewById(R.id.button1);
+        TestManager.getInstance().registerListener(this);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(mButton, "rotation",
+                0, 360).setDuration(2000);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.start();
+        //animator.cancel();
 
-//        SystemClock.sleep(30 * 1000);
+        SystemClock.sleep(30 * 1000);
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                testANR();
-//            }
-//        }).start();
-//        SystemClock.sleep(10);
-//        initView();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                testANR();
+            }
+        }).start();
+        SystemClock.sleep(10);
+        initView();
     }
 
     private synchronized void testANR() {

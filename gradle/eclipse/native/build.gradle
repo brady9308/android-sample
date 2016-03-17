@@ -1,0 +1,81 @@
+apply plugin: 'com.android.library'
+
+import org.apache.tools.ant.taskdefs.condition.Os
+
+android {
+    sourceSets {
+        main {
+            //根据需求，配置项目文件路径  
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            jni.srcDirs = ['jni']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+            //不要使用gradle编译native代码  
+            //因为gradle会忽略.mk文件  
+        }
+    }
+
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    //添加依赖引用
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+//////以下内容修改android studio NDK工程编译方式//////////  
+task buildNative(type: Exec, description: 'Compile JNI source via NDK') {
+    def ndkPath = plugins.getPlugin('com.android.library').sdkHandler.ndkFolder.absolutePath
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine ndkPath + '\\ndk-build.cmd',
+                '-C', file('.').absolutePath,
+                '-j', Runtime.runtime.availableProcessors(),
+                'all'
+    } else {
+        commandLine "sh", ndkPath + '/ndk-build',
+                '-C', file('.').absolutePath,
+                '-j', Runtime.runtime.availableProcessors(),
+                'all'
+    }
+
+    doLast {
+        if (execResult.exitValue != 0) {
+            throw new GradleException()
+        }
+    }
+}
+
+task cleanNative(type: Exec, description: 'Clean JNI object files') {
+    def ndkPath = plugins.getPlugin('com.android.library').sdkHandler.ndkFolder.absolutePath
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine ndkPath + '\\ndk-build.cmd',
+                '-C', file('.').absolutePath,
+                'clean'
+    } else {
+        commandLine "sh", ndkPath + '/ndk-build',
+                '-C', file('.').absolutePath,
+                'clean'
+    }
+
+    doLast {
+        if (execResult.exitValue != 0) {
+            throw new GradleException()
+        }
+    }
+}
+
+clean.dependsOn 'cleanNative'
+
+tasks.withType(JavaCompile) {
+    compileTask -> compileTask.dependsOn buildNative
+}
