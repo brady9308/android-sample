@@ -21,10 +21,19 @@ public class CalendarView extends LinearLayout {
     private View headView;
     private ViewGroup contentView;
     private ViewGroup[][] dayView;
+    private OnClickListener mOnClickListener;
+    private int selectDay;
 
+    private int month;
+    private int day;
     private long[][] dayTime;
     private String[][] dayLabel;
     private CalendarUtil calendarUtil;
+
+    private int bgGray = 0x00eeeeee;
+    private int bgRed = 0x00ff0033;
+    private int textGray = 0xff959595;
+    private int textNormal = 0xff313131;
 
     public CalendarView(Context context) {
         super(context);
@@ -53,6 +62,8 @@ public class CalendarView extends LinearLayout {
         headView = LayoutInflater.from(context).inflate(R.layout.layout_month_head, this, false);
         contentView = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.layout_month, this, false);
         calendarUtil = CalendarUtil.getInstance();
+        month = calendarUtil.get(Calendar.MONTH);
+        day = calendarUtil.get(Calendar.DAY_OF_MONTH);
         addView(headView);
         addView(contentView);
         dayView = new ViewGroup[6][7];
@@ -65,10 +76,21 @@ public class CalendarView extends LinearLayout {
             for (int j = 0; j < 7; j++){
                 dayView[i][j] = getDayOfWeek(week, j);
                 calendarUtil.setTimeInMillis(dayTime[i][j]);
+                dayView[i][j].setTag(calendarUtil.get(Calendar.MONTH));
+                if (calendarUtil.get(Calendar.MONTH) != month)
+                    ((TextView)dayView[i][j].findViewById(R.id.day)).setTextColor(textGray);
+                else{
+                    ((TextView)dayView[i][j].findViewById(R.id.day)).setTextColor(textNormal);
+                    dayView[i][j].setOnClickListener(mOnClickListener);
+                }
                 ((TextView)dayView[i][j].findViewById(R.id.day)).setText("" + calendarUtil.get(Calendar.DAY_OF_MONTH));
             }
         }
         calendarUtil.setTimeInMillis(calendarUtil.getTempTime());
+        setSelectDay(day);
+        //CalendarUtil.DayIndex index = getDayIndex(25);
+        //calendarUtil.setTimeInMillis(dayTime[index.week][index.day]);
+        //Log.e("day", "" + calendarUtil.get(Calendar.DAY_OF_MONTH));
     }
 
     private ViewGroup getWeekOfMonth(int week){
@@ -95,6 +117,11 @@ public class CalendarView extends LinearLayout {
 
     public void setDayLabel(int week, int day, String dayLabel) {
         this.dayLabel[week][day] = dayLabel;
+        if (dayLabel != null){
+            dayView[week][day].findViewById(R.id.label).setVisibility(VISIBLE);
+            ((TextView)dayView[week][day].findViewById(R.id.label)).setText(dayLabel);
+        }else
+            dayView[week][day].findViewById(R.id.label).setVisibility(GONE);
     }
 
     public ViewGroup getDayView(int week, int day) {
@@ -117,4 +144,30 @@ public class CalendarView extends LinearLayout {
         return dayView;
     }
 
+    public int getSelectDay() {
+        return selectDay;
+    }
+
+    public void setSelectDay(int selectDay) {
+        CalendarUtil.DayIndex index = getDayIndex(this.selectDay);
+        dayView[index.week][index.day].findViewById(R.id.select).setVisibility(GONE);
+        this.selectDay = selectDay;
+        index = getDayIndex(this.selectDay);
+        dayView[index.week][index.day].findViewById(R.id.select).setVisibility(VISIBLE);
+    }
+
+    public OnClickListener getOnClickListener() {
+        return mOnClickListener;
+    }
+
+    public void setOnClickListener(OnClickListener mOnClickListener) {
+        this.mOnClickListener = mOnClickListener;
+        for (int i = 0; i < 6; i++){
+            for (int j = 0; j < 7; j++){
+                if (((int)dayView[i][j].getTag()) == month) {
+                    dayView[i][j].setOnClickListener(mOnClickListener);
+                }
+            }
+        }
+    }
 }

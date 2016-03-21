@@ -4,55 +4,63 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="5dp"
-    android:paddingBottom="5dp">
+    android:paddingBottom="5dp"
+    android:background="#eeeeee">
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="星期日"/>
+        android:text="星期日"
+        android:textColor="#959595"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="星期一"/>
+        android:text="星期一"
+        android:textColor="#959595"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="星期二"/>
+        android:text="星期二"
+        android:textColor="#959595"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="星期三"/>
+        android:text="星期三"
+        android:textColor="#959595"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="星期四"/>
+        android:text="星期四"
+        android:textColor="#959595"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="星期五"/>
+        android:text="星期五"
+        android:textColor="#959595"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="星期六"/>
+        android:text="星期六"
+        android:textColor="#959595"/>
 
 </LinearLayout>

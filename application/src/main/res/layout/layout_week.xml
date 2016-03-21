@@ -11,7 +11,7 @@
     <View
         android:layout_width="1px"
         android:layout_height="match_parent"
-        android:background="#6666"/>
+        android:background="#eeeeee"/>
 
     <include layout="@layout/layout_day"
         android:layout_width="0dp"
@@ -21,7 +21,7 @@
     <View
         android:layout_width="1px"
         android:layout_height="match_parent"
-        android:background="#6666"/>
+        android:background="#eeeeee"/>
 
     <include layout="@layout/layout_day"
         android:layout_width="0dp"
@@ -31,7 +31,7 @@
     <View
         android:layout_width="1px"
         android:layout_height="match_parent"
-        android:background="#6666"/>
+        android:background="#eeeeee"/>
 
     <include layout="@layout/layout_day"
         android:layout_width="0dp"
@@ -41,7 +41,7 @@
     <View
         android:layout_width="1px"
         android:layout_height="match_parent"
-        android:background="#6666"/>
+        android:background="#eeeeee"/>
 
     <include layout="@layout/layout_day"
         android:layout_width="0dp"
@@ -51,7 +51,7 @@
     <View
         android:layout_width="1px"
         android:layout_height="match_parent"
-        android:background="#6666"/>
+        android:background="#eeeeee"/>
 
     <include layout="@layout/layout_day"
         android:layout_width="0dp"
@@ -61,7 +61,7 @@
     <View
         android:layout_width="1px"
         android:layout_height="match_parent"
-        android:background="#6666"/>
+        android:background="#eeeeee"/>
 
     <include layout="@layout/layout_day"
         android:layout_width="0dp"

@@ -10,7 +10,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#6666"/>
+        android:background="#eeeeee"/>
 
     <include layout="@layout/layout_week"
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#6666"/>
+        android:background="#eeeeee"/>
 
     <include layout="@layout/layout_week"
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#6666"/>
+        android:background="#eeeeee"/>
 
     <include layout="@layout/layout_week"
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#6666"/>
+        android:background="#eeeeee"/>
 
     <include layout="@layout/layout_week"
         android:layout_width="match_parent"
@@ -46,7 +46,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#6666"/>
+        android:background="#eeeeee"/>
 
     <include layout="@layout/layout_week"
         android:layout_width="match_parent"

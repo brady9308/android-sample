@@ -110,7 +110,7 @@ public class CalendarUtil extends GregorianCalendar {
      */
     public DayIndex getDayIndex(int day){
         DayIndex index = new DayIndex();
-        int tempDay = day + getFirstDay() - 1;
+        int tempDay = day + getFirstDay() - 2;
         index.week = tempDay / 7;
         index.day = tempDay % 7;
         return index;

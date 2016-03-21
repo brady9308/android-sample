@@ -15,7 +15,7 @@ include ':Chapter_6'//Drawable
 include ':Chapter_7'//动画
 include ':Chapter_8'//WindowManager
 include ':Chapter_11'
-include ':Chapter_12'
+include ':Chapter_12'//图片和缓存
 include ':Chapter_13_CrashTest'//Carsh 处理
 include ':Chapter_13_MultiDexTest'//方法溢出处理
 //include ':Chapter_14_JniTestApp'
