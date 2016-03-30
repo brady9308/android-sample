@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <include layout="@layout/layout_day"
+    <include layout="@layout/layout_calendar_day"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:background="#eeeeee"/>
 
-    <include layout="@layout/layout_day"
+    <include layout="@layout/layout_calendar_day"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:background="#eeeeee"/>
 
-    <include layout="@layout/layout_day"
+    <include layout="@layout/layout_calendar_day"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
@@ -33,7 +33,7 @@
         android:layout_height="match_parent"
         android:background="#eeeeee"/>
 
-    <include layout="@layout/layout_day"
+    <include layout="@layout/layout_calendar_day"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
@@ -43,7 +43,7 @@
         android:layout_height="match_parent"
         android:background="#eeeeee"/>
 
-    <include layout="@layout/layout_day"
+    <include layout="@layout/layout_calendar_day"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
@@ -53,7 +53,7 @@
         android:layout_height="match_parent"
         android:background="#eeeeee"/>
 
-    <include layout="@layout/layout_day"
+    <include layout="@layout/layout_calendar_day"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
@@ -63,7 +63,7 @@
         android:layout_height="match_parent"
         android:background="#eeeeee"/>
 
-    <include layout="@layout/layout_day"
+    <include layout="@layout/layout_calendar_day"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>

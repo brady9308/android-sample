@@ -59,26 +59,46 @@ public class CalendarView extends LinearLayout {
 
     private void init(Context context){
         setOrientation(VERTICAL);
-        headView = LayoutInflater.from(context).inflate(R.layout.layout_month_head, this, false);
-        contentView = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.layout_month, this, false);
-        calendarUtil = CalendarUtil.getInstance();
-        month = calendarUtil.get(Calendar.MONTH);
-        day = calendarUtil.get(Calendar.DAY_OF_MONTH);
+        headView = LayoutInflater.from(context).inflate(R.layout.layout_calendar_month_head, this, false);
+        contentView = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.layout_calendar_month, this, false);
         addView(headView);
         addView(contentView);
         dayView = new ViewGroup[6][7];
         dayLabel = new String[6][7];
-        dayTime = calendarUtil.getMonthTimes();
-        calendarUtil.setTempTime(calendarUtil.getTimeInMillis());
+        calendarUtil = CalendarUtil.getInstance();
+
         for (int i = 0; i < 6; i++){
             ViewGroup week = getWeekOfMonth(i);
             getDayOfWeek(week,0);
             for (int j = 0; j < 7; j++){
                 dayView[i][j] = getDayOfWeek(week, j);
+            }
+        }
+        setCalendar(calendarUtil.getTimeInMillis());
+    }
+
+    private ViewGroup getWeekOfMonth(int week){
+        return (ViewGroup) contentView.getChildAt(week * 2);
+    }
+
+    private ViewGroup getDayOfWeek(ViewGroup weekView, int day){
+        return (ViewGroup) weekView.getChildAt(day * 2);
+    }
+
+    public void setCalendar(long date){
+        calendarUtil.setTimeInMillis(date);
+        month = calendarUtil.get(Calendar.MONTH);
+        day = calendarUtil.get(Calendar.DAY_OF_MONTH);
+        dayTime = calendarUtil.getMonthTimes();
+        calendarUtil.setTempTime(calendarUtil.getTimeInMillis());
+        for (int i = 0; i < 6; i++){
+            for (int j = 0; j < 7; j++){
                 calendarUtil.setTimeInMillis(dayTime[i][j]);
                 dayView[i][j].setTag(calendarUtil.get(Calendar.MONTH));
-                if (calendarUtil.get(Calendar.MONTH) != month)
+                if (calendarUtil.get(Calendar.MONTH) != month){
                     ((TextView)dayView[i][j].findViewById(R.id.day)).setTextColor(textGray);
+                    dayView[i][j].setOnClickListener(null);
+                }
                 else{
                     ((TextView)dayView[i][j].findViewById(R.id.day)).setTextColor(textNormal);
                     dayView[i][j].setOnClickListener(mOnClickListener);
@@ -93,14 +113,6 @@ public class CalendarView extends LinearLayout {
         //Log.e("day", "" + calendarUtil.get(Calendar.DAY_OF_MONTH));
     }
 
-    private ViewGroup getWeekOfMonth(int week){
-        return (ViewGroup) contentView.getChildAt(week * 2);
-    }
-
-    private ViewGroup getDayOfWeek(ViewGroup weekView, int day){
-        return (ViewGroup) weekView.getChildAt(day * 2);
-    }
-
     public void showDivision(boolean state){}
 
     public long getDayTime(int week, int day){
@@ -109,6 +121,16 @@ public class CalendarView extends LinearLayout {
 
     public void setDayTime(int week, int day, long dayTime) {
         this.dayTime[week][day] = dayTime;
+    }
+
+    public String getDayLabel(int day) {
+        CalendarUtil.DayIndex index = calendarUtil.getDayIndex(day);
+        return getDayLabel(index.week, index.day);
+    }
+
+    public void setDayLabel(int day, String dayLabel) {
+        CalendarUtil.DayIndex index = calendarUtil.getDayIndex(day);
+        setDayLabel(index.week, index.day, dayLabel);
     }
 
     public String getDayLabel(int week, int day) {
@@ -151,9 +173,13 @@ public class CalendarView extends LinearLayout {
     public void setSelectDay(int selectDay) {
         CalendarUtil.DayIndex index = getDayIndex(this.selectDay);
         dayView[index.week][index.day].findViewById(R.id.select).setVisibility(GONE);
-        this.selectDay = selectDay;
-        index = getDayIndex(this.selectDay);
-        dayView[index.week][index.day].findViewById(R.id.select).setVisibility(VISIBLE);
+        if (selectDay != 0) {
+            this.selectDay = selectDay;
+            index = getDayIndex(this.selectDay);
+            dayView[index.week][index.day].findViewById(R.id.select).setVisibility(VISIBLE);
+        }else {
+            this.selectDay = selectDay;
+        }
     }
 
     public OnClickListener getOnClickListener() {
