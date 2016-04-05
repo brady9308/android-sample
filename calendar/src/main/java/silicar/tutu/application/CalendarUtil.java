@@ -1,7 +1,5 @@
 package silicar.tutu.application;
 
-import android.view.ViewGroup;
-
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -110,7 +108,12 @@ public class CalendarUtil extends GregorianCalendar {
      */
     public DayIndex getDayIndex(int day){
         DayIndex index = new DayIndex();
+        if (day == 0)
+            day = 1;
         int tempDay = day + getFirstDay() - 2;
+        //LogUtils.e("day" + day);
+        //LogUtils.e("first" + getFirstDay());
+        //LogUtils.e("temp" + tempDay);
         index.week = tempDay / 7;
         index.day = tempDay % 7;
         return index;

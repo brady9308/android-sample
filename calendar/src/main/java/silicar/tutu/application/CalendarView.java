@@ -18,6 +18,13 @@ import java.util.Calendar;
  */
 public class CalendarView extends LinearLayout {
 
+    public static final int PARENT_VIEW = -1;
+    public static final int SELECT_VIEW = -2;
+    public static final int LABEL_VIEW = -3;
+    public static final int DATE_VIEW = -4;
+    public static final int POSITION = -6;
+    public static final int DATA = -7;
+
     private View headView;
     private ViewGroup contentView;
     private ViewGroup[][] dayView;
@@ -72,6 +79,7 @@ public class CalendarView extends LinearLayout {
             getDayOfWeek(week,0);
             for (int j = 0; j < 7; j++){
                 dayView[i][j] = getDayOfWeek(week, j);
+                dayView[i][j].setTag(PARENT_VIEW, this);
             }
         }
         setCalendar(calendarUtil.getTimeInMillis());
@@ -85,6 +93,40 @@ public class CalendarView extends LinearLayout {
         return (ViewGroup) weekView.getChildAt(day * 2);
     }
 
+    private View getSelectView(View view){
+        View select = (View) view.getTag(SELECT_VIEW);
+        if (select == null)
+            select = view.findViewById(R.id.select);
+        return select;
+    }
+
+    public View getLabelView(ViewGroup dayView){
+        View select = (View) dayView.getTag(LABEL_VIEW);
+        if (select == null)
+            select = dayView.findViewById(R.id.label);
+        return select;
+    }
+
+    public View getDateView(ViewGroup dayView){
+        View select = (View) dayView.getTag(DATE_VIEW);
+        if (select == null)
+            select = dayView.findViewById(R.id.day);
+        return select;
+    }
+
+    public ViewGroup getDayView(int day){
+        CalendarUtil.DayIndex index = calendarUtil.getDayIndex(day);
+        return getDayView(index.week, index.day);
+    }
+
+    public ViewGroup getDayView(int week, int day) {
+        return dayView[week][day];
+    }
+
+    public ViewGroup[][] getAllDayView() {
+        return dayView;
+    }
+
     public void setCalendar(long date){
         calendarUtil.setTimeInMillis(date);
         month = calendarUtil.get(Calendar.MONTH);
@@ -93,20 +135,25 @@ public class CalendarView extends LinearLayout {
         calendarUtil.setTempTime(calendarUtil.getTimeInMillis());
         for (int i = 0; i < 6; i++){
             for (int j = 0; j < 7; j++){
+                //清空选中
+                getSelectView(dayView[i][j]).setVisibility(GONE);
+                //清空标签
+                setDayLabel(i, j, null);
                 calendarUtil.setTimeInMillis(dayTime[i][j]);
                 dayView[i][j].setTag(calendarUtil.get(Calendar.MONTH));
                 if (calendarUtil.get(Calendar.MONTH) != month){
-                    ((TextView)dayView[i][j].findViewById(R.id.day)).setTextColor(textGray);
+                    ((TextView)getDateView(dayView[i][j])).setTextColor(textGray);
                     dayView[i][j].setOnClickListener(null);
                 }
                 else{
-                    ((TextView)dayView[i][j].findViewById(R.id.day)).setTextColor(textNormal);
+                    ((TextView)getDateView(dayView[i][j])).setTextColor(textNormal);
                     dayView[i][j].setOnClickListener(mOnClickListener);
                 }
-                ((TextView)dayView[i][j].findViewById(R.id.day)).setText("" + calendarUtil.get(Calendar.DAY_OF_MONTH));
+                ((TextView)getDateView(dayView[i][j])).setText("" + calendarUtil.get(Calendar.DAY_OF_MONTH));
             }
         }
         calendarUtil.setTimeInMillis(calendarUtil.getTempTime());
+        //LogUtils.e("" + day);
         setSelectDay(day);
         //CalendarUtil.DayIndex index = getDayIndex(25);
         //calendarUtil.setTimeInMillis(dayTime[index.week][index.day]);
@@ -128,26 +175,22 @@ public class CalendarView extends LinearLayout {
         return getDayLabel(index.week, index.day);
     }
 
+    public String getDayLabel(int week, int day) {
+        return dayLabel[week][day];
+    }
+
     public void setDayLabel(int day, String dayLabel) {
         CalendarUtil.DayIndex index = calendarUtil.getDayIndex(day);
         setDayLabel(index.week, index.day, dayLabel);
     }
 
-    public String getDayLabel(int week, int day) {
-        return dayLabel[week][day];
-    }
-
     public void setDayLabel(int week, int day, String dayLabel) {
         this.dayLabel[week][day] = dayLabel;
         if (dayLabel != null){
-            dayView[week][day].findViewById(R.id.label).setVisibility(VISIBLE);
-            ((TextView)dayView[week][day].findViewById(R.id.label)).setText(dayLabel);
+            getLabelView(dayView[week][day]).setVisibility(VISIBLE);
+            ((TextView)getLabelView(dayView[week][day])).setText(dayLabel);
         }else
-            dayView[week][day].findViewById(R.id.label).setVisibility(GONE);
-    }
-
-    public ViewGroup getDayView(int week, int day) {
-        return dayView[week][day];
+            getLabelView(dayView[week][day]).setVisibility(GONE);
     }
 
     public CalendarUtil.DayIndex getDayIndex(int day){
@@ -162,23 +205,26 @@ public class CalendarView extends LinearLayout {
         return dayLabel;
     }
 
-    public ViewGroup[][] getDayViews() {
-        return dayView;
-    }
-
     public int getSelectDay() {
         return selectDay;
     }
 
     public void setSelectDay(int selectDay) {
         CalendarUtil.DayIndex index = getDayIndex(this.selectDay);
-        dayView[index.week][index.day].findViewById(R.id.select).setVisibility(GONE);
+        //LogUtils.e("" + index.week);
+        //LogUtils.e("" + index.day);
+        getSelectView(dayView[index.week][index.day]).setVisibility(GONE);
         if (selectDay != 0) {
             this.selectDay = selectDay;
             index = getDayIndex(this.selectDay);
-            dayView[index.week][index.day].findViewById(R.id.select).setVisibility(VISIBLE);
+            getSelectView(dayView[index.week][index.day]).setVisibility(VISIBLE);
         }else {
             this.selectDay = selectDay;
+            //for (int i = 0; i < 6; i++){
+            //    for (int j = 0; j < 7; j++){
+            //        getSelectView(dayView[i][j]).setVisibility(GONE);
+            //    }
+            //}
         }
     }
 

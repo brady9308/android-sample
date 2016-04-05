@@ -4,7 +4,7 @@
  * include ':项目名称1'
  * include ':项目名称2'
  */
-include ':application'
+include ':calendar'
 ///// Books Demo Start /////
 include ':Chapter_1'//Intent launchMode
 include ':Chapter_2'//进程通信
